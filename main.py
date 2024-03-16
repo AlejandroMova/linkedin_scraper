@@ -8,6 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import ActionChains
 import json
+import time
 
 load_dotenv()
 user = os.getenv('USER')
@@ -58,12 +59,9 @@ with SB(uc=True) as sb:
 
     # open undetectable
     sb.driver.uc_open('https://www.linkedin.com/feed/')
-
+    time.sleep(10)
     # load cookies
     load_cookies(sb)
-    
-     # search for keyword and location
-    sb.driver.uc_open('https://linkedin.com/jobs/search/?keywords=' + keyword + '&location=' + location.replace(' ', '%20'))          
 
     # login, if asked, if not go directly into feed for search
     if sb.is_text_visible("Email", "form.join-form section div:nth-of-type(2)"): 
@@ -72,8 +70,9 @@ with SB(uc=True) as sb:
         sb.type("#password", password + '\n')
         sb.open_if_not_url("https://www.linkedin.com/feed/?trk=seo-authwall-base_sign-in-submit")
         save_cookies(sb)
-         # search for keyword and location
-        sb.driver.uc_open('https://linkedin.com/jobs/search/?keywords=' + keyword + '&location=' + location.replace(' ', '%20'))          
+        
+    # search for keyword and location
+    sb.driver.uc_open('https://linkedin.com/jobs/search/?keywords=' + keyword + '&location=' + location.replace(' ', '%20'))          
 
     # scroll to get more results
     frame = sb.find_element(By.CLASS_NAME, "job-card-container")

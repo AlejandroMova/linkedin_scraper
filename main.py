@@ -8,7 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import ActionChains
 import json
-import time
+
 
 load_dotenv()
 user = os.getenv('USER')
@@ -59,7 +59,7 @@ with SB(uc=True) as sb:
 
     # open undetectable
     sb.driver.uc_open('https://www.linkedin.com/feed/')
-    time.sleep(10)
+    
     # load cookies
     load_cookies(sb)
 
@@ -76,7 +76,6 @@ with SB(uc=True) as sb:
 
     # scroll to get more results
     frame = sb.find_element(By.CLASS_NAME, "job-card-container")
-    print(frame)
     scroll_origin = ScrollOrigin.from_element(frame)
     ActionChains(sb.driver).scroll_from_origin(scroll_origin, 0, 10000).perform()
 
